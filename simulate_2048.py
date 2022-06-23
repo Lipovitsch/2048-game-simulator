@@ -89,6 +89,8 @@ def determine_best_move(table: list[list], points, depth: int = 1):
 
             if new_table[0][0] <= new_table[0][1] and new_table[0][1] <= new_table[0][2] and new_table[0][2] <= new_table[0][3]:
                 new_points += 100000
+            if sum(new_table[0]) > sum(new_table[1]) + sum(new_table[2]) + sum(new_table[3]):
+                new_points += 100000
 
             # if new_table[0][0] <= new_table[0][1]:
             #     new_points += 100000
@@ -112,9 +114,6 @@ def determine_best_move(table: list[list], points, depth: int = 1):
                 best_choice = choice
 
     # print(f"Choose: {best_choice.upper()}")    
-    if best_choice == "down":
-        pass
-
     return best_choice, hold_points
 
 
@@ -136,10 +135,6 @@ def simulate_2048(depth: int):
         char, pts = determine_best_move([x[:] for x in game_table], game_points, depth)
         temp = [x[:] for x in game_table]
         game_table, game_points = g.update_table([x[:] for x in game_table], char, game_points)
-
-        # if game_table[0][0] == 128 and game_table[0][1] == 256 and game_table[0][2] == 512 and  game_table[0][3] == 1024:
-        #     g.print_game(game_table, game_points)
-
         game_table = g.add_element_to_table([x[:] for x in game_table])
     
     return game_table, game_points
@@ -159,7 +154,7 @@ if __name__ == "__main__":
         max_from_each_table = [max(t) for t in table]
         max_results.append(max(max_from_each_table))
         points_table.append(points)
-        # if (max(max_from_each_table) == 2048):
+        # if (max(max_from_each_table) == 64):
         #     g.print_game(table, points)
     
     number_max_results = {}
